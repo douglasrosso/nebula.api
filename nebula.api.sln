@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nebula.api", "nebula.api.csproj", "{B6A981AB-164B-124F-0000-02A22EC723FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6A981AB-164B-124F-0000-02A22EC723FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A981AB-164B-124F-0000-02A22EC723FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A981AB-164B-124F-0000-02A22EC723FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A981AB-164B-124F-0000-02A22EC723FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5A9324AE-4E04-490F-9177-7F6CEC4BB99D}
+	EndGlobalSection
+EndGlobal
