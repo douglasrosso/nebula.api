@@ -1,8 +1,10 @@
+using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using nebula.api.src.Data;
 using nebula.api.src.Repositories;
 using nebula.api.src.Services;
 
+Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,10 +13,10 @@ builder.Services.AddOpenApi();
 
 
 
-//var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
-//    ?? throw new InvalidOperationException("CONNECTION_STRING environment variable is not set.");
+var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
+    ?? throw new InvalidOperationException("CONNECTION_STRING environment variable is not set.");
 
-builder.Services.AddDbContext<NebulaDbContext>(options => options.UseNpgsql("Host=127.0.0.1;Port=5432;Database=nebula;Username=postgres;Password=password"));
+builder.Services.AddDbContext<NebulaDbContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
