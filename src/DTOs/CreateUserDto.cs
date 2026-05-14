@@ -1,15 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace nebula.api.src.Entities
+namespace nebula.api.src.DTOs
 {
-    public class UserEntity
+    public class CreateUserDto
     {
-        [Key]
-        public Guid Id { get; set; }
+        [Required]
         public string Name { get; set; } = string.Empty;
+
+        [Required]
+        [EmailAddress]
         public string Email { get; set; } = string.Empty;
+
+        [Required]
+        [MinLength(6)]
         public string Password { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
     }
 }
