@@ -23,11 +23,11 @@ namespace nebula.api.src.Controllers
             var user = await _userService.Authenticate(dto);
 
             if (user is null)
-                return Unauthorized();
+                return Unauthorized(new { message = "Credenciais inválidas" });
 
-            var token = _tokenService.GenerateToken(user.Id.ToString(), user.Email);
+            _tokenService.GenerateToken(user.Id.ToString(), user.Email);
 
-            return Ok(new { token });
+            return Ok(new { message = "Login realizado com sucesso" });
         }
     }
 }
