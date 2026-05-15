@@ -36,7 +36,7 @@ namespace nebula.api.src.Services
                 issuer: _issuer,
                 audience: _audience,
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(2),
+                expires: DateTime.UtcNow.AddDays(1),
                 signingCredentials: creds
             );
 
@@ -54,7 +54,7 @@ namespace nebula.api.src.Services
                     HttpOnly = true,
                     Secure = false,
                     SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddHours(1)
+                    Expires = DateTime.UtcNow.AddDays(1)
                 };
 
                 context.Response.Cookies.Append("AuthToken", token, cookieOptions);
