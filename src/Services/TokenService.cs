@@ -40,10 +40,16 @@ namespace nebula.api.src.Services
                 signingCredentials: creds
             );
 
-            this.DefinirTokenCookie(token.ToString());
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            this.DefinirTokenCookie(tokenString);
         }
 
-        public void DefinirTokenCookie(string token)
+        public void RemoverTokenCookie()
+        {
+            _httpContextAccessor.HttpContext?.Response.Cookies.Delete("NebulaAuthToken");
+        }
+
+        private void DefinirTokenCookie(string token)
         {
             var context = _httpContextAccessor.HttpContext;
 
@@ -52,12 +58,12 @@ namespace nebula.api.src.Services
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
-                    Secure = false,
+                    Secure = true,
                     SameSite = SameSiteMode.Strict,
                     Expires = DateTime.UtcNow.AddDays(1)
                 };
 
-                context.Response.Cookies.Append("AuthToken", token, cookieOptions);
+                context.Response.Cookies.Append("NebulaAuthToken", token, cookieOptions);
             }
         }
     }

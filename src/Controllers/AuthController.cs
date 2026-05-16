@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using nebula.api.src.DTOs;
 using nebula.api.src.Services;
@@ -17,6 +18,7 @@ namespace nebula.api.src.Controllers
             _userService = userService;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginDto dto)
         {
@@ -28,6 +30,14 @@ namespace nebula.api.src.Controllers
             _tokenService.GenerateToken(user.Id.ToString(), user.Email);
 
             return Ok(new { message = "Login realizado com sucesso" });
+        }
+
+        [Authorize]
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            _tokenService.RemoverTokenCookie();
+            return Ok(new { message = "Logout realizado com sucesso" });
         }
     }
 }
