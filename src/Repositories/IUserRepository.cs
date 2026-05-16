@@ -1,13 +1,11 @@
-using nebula.api.src.Entities;
+using nebula.api.src.Common.Repositories;
 using nebula.api.src.DTOs;
+using nebula.api.src.Entities;
 
 namespace nebula.api.src.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IBaseRepository<UserEntity, UserQueryDto>
     {
-        public Task<PaginatedResultDto<UserEntity>> Get(UserQueryDto query);
-        public Task<UserEntity?> GetById(Guid id);
-        public Task<UserEntity?> GetByEmail(string email);
-        public Task<UserEntity> Create(UserEntity user);
+        Task<UserEntity?> GetByEmail(string email);
     }
 }
