@@ -6,10 +6,10 @@ namespace nebula.api.src.DTOs
     {
         [Required(ErrorMessage = "Email é obrigatório.")]
         [EmailAddress(ErrorMessage = "Formato de email inválido.")]
-        public string Email { get; set; } = string.Empty;
+        public string? Email { get; set; }
 
-        [Required(ErrorMessage = "Senha é obrigatório.")]
+        [Required(ErrorMessage = "Senha é obrigatória.")]
         [MinLength(6, ErrorMessage = "Senha deve ter pelo menos 6 caracteres.")]
-        public string Password { get; set; } = string.Empty;
+        public string? Password { get; set; }
     }
 }
