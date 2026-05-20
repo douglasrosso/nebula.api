@@ -13,6 +13,9 @@ namespace nebula.api.src.Mappings
             CreateMap<UserDto, UserModel>()
                 .ForMember(dest => dest.Password, opt => opt.Ignore());
 
+            CreateMap<UserEntity, UserDto>()
+                .ForMember(dest => dest.GamesOwned, opt => opt.MapFrom(src => src.Library.Count));
+
             CreateMap<GameEntity, GameDto>()
                 .ForMember(dest => dest.Genres, opt => opt.MapFrom(src =>
                     src.GameGenres.Select(gg => gg.Genre.Name).ToArray()))
