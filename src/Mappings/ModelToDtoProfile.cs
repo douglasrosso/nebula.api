@@ -9,7 +9,9 @@ namespace nebula.api.src.Mappings
     {
         public ModelToDtoProfile()
         {
-            CreateMap<UserDto, UserModel>().ReverseMap();
+            CreateMap<UserModel, UserDto>();
+            CreateMap<UserDto, UserModel>()
+                .ForMember(dest => dest.Password, opt => opt.Ignore());
 
             // mapeamento direto Entity → Dto usado pela camada base
             CreateMap<UserEntity, UserDto>();

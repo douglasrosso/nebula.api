@@ -11,7 +11,11 @@ namespace nebula.api.src.Mappings
         {
             CreateMap<UserModel, UserEntity>().ReverseMap();
 
-            CreateMap<CreateUserDto, UserEntity>();
+            CreateMap<CreateUserDto, UserEntity>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+                .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore());
+
             CreateMap<UpdateUserDto, UserEntity>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
                 .ForMember(dest => dest.Email, opt => opt.Ignore())
