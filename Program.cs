@@ -55,3 +55,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 await app.RunAsync();
+
+#pragma warning disable S1118 // Exposed for WebApplicationFactory<Program> in integration tests.
+public partial class Program { }
+#pragma warning restore S1118
