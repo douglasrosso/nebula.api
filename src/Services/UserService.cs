@@ -35,6 +35,33 @@ namespace nebula.api.src.Services
             entity.Name = dto.Name!.Trim();
             entity.Email = normalizedEmail;
             entity.Password = _passwordHasher.HashPassword(entity, dto.Password!);
+            entity.Username = string.IsNullOrWhiteSpace(dto.Username)
+                ? normalizedEmail.Split('@')[0]
+                : dto.Username.Trim().ToLowerInvariant();
+            entity.DisplayName = dto.Name!.Trim();
+        }
+
+        protected override Task BeforeUpdate(UserEntity entity, UpdateUserDto dto)
+        {
+            if (!string.IsNullOrWhiteSpace(dto.Name))
+                entity.Name = dto.Name.Trim();
+
+            if (!string.IsNullOrWhiteSpace(dto.Username))
+                entity.Username = dto.Username.Trim().ToLowerInvariant();
+
+            if (!string.IsNullOrWhiteSpace(dto.DisplayName))
+                entity.DisplayName = dto.DisplayName.Trim();
+
+            if (dto.Avatar is not null)
+                entity.Avatar = dto.Avatar;
+
+            if (dto.Country is not null)
+                entity.Country = dto.Country.Trim();
+
+            if (dto.Bio is not null)
+                entity.Bio = dto.Bio.Trim();
+
+            return Task.CompletedTask;
         }
 
         public async Task<UserDto?> Authenticate(LoginDto dto)

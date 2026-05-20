@@ -13,8 +13,16 @@ namespace nebula.api.src.Mappings
             CreateMap<UserDto, UserModel>()
                 .ForMember(dest => dest.Password, opt => opt.Ignore());
 
-            // mapeamento direto Entity → Dto usado pela camada base
-            CreateMap<UserEntity, UserDto>();
+            CreateMap<GameEntity, GameDto>()
+                .ForMember(dest => dest.Genres, opt => opt.MapFrom(src =>
+                    src.GameGenres.Select(gg => gg.Genre.Name).ToArray()))
+                .ForMember(dest => dest.ReleaseDate, opt => opt.MapFrom(src =>
+                    src.ReleaseDate.ToString("yyyy-MM-dd")));
+
+            CreateMap<SystemRequirements, SystemRequirementsDto>();
+            CreateMap<SystemRequirementSpec, SystemRequirementSpecDto>();
+
+            CreateMap<GenreEntity, GenreDto>();
         }
     }
 }
