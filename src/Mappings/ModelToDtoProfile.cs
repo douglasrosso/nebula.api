@@ -9,7 +9,17 @@ namespace nebula.api.src.Mappings
     {
         public ModelToDtoProfile()
         {
-            CreateMap<UserModel, UserDto>();
+            CreateMap<UserModel, UserDto>()
+                .ForMember(dest => dest.Username, opt => opt.Ignore())
+                .ForMember(dest => dest.DisplayName, opt => opt.Ignore())
+                .ForMember(dest => dest.Avatar, opt => opt.Ignore())
+                .ForMember(dest => dest.Level, opt => opt.Ignore())
+                .ForMember(dest => dest.Xp, opt => opt.Ignore())
+                .ForMember(dest => dest.Country, opt => opt.Ignore())
+                .ForMember(dest => dest.Bio, opt => opt.Ignore())
+                .ForMember(dest => dest.FriendCount, opt => opt.Ignore())
+                .ForMember(dest => dest.GamesOwned, opt => opt.Ignore())
+                .ForMember(dest => dest.Badges, opt => opt.Ignore());
             CreateMap<UserDto, UserModel>()
                 .ForMember(dest => dest.Password, opt => opt.Ignore());
 
