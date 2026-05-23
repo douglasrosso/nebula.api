@@ -19,6 +19,8 @@ namespace nebula.api.src.Data
         public DbSet<CartItemEntity> Cart => Set<CartItemEntity>();
         public DbSet<OrderEntity> Orders => Set<OrderEntity>();
         public DbSet<OrderItemEntity> OrderItems => Set<OrderItemEntity>();
+        public DbSet<FriendshipEntity> Friendships => Set<FriendshipEntity>();
+        public DbSet<MessageEntity> Messages => Set<MessageEntity>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -139,6 +141,30 @@ namespace nebula.api.src.Data
                 .HasOne(i => i.Game)
                 .WithMany(g => g.OrderItems)
                 .HasForeignKey(i => i.GameId);
+
+            modelBuilder.Entity<FriendshipEntity>()
+                .HasOne(f => f.Requester)
+                .WithMany(u => u.SentRequests)
+                .HasForeignKey(f => f.RequesterId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<FriendshipEntity>()
+                .HasOne(f => f.Receiver)
+                .WithMany(u => u.ReceivedRequests)
+                .HasForeignKey(f => f.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MessageEntity>()
+                .HasOne(m => m.Sender)
+                .WithMany(u => u.SentMessages)
+                .HasForeignKey(m => m.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<MessageEntity>()
+                .HasOne(m => m.Receiver)
+                .WithMany(u => u.ReceivedMessages)
+                .HasForeignKey(m => m.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

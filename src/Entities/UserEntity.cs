@@ -22,5 +22,9 @@ namespace nebula.api.src.Entities
         public ICollection<WishlistItemEntity> Wishlist { get; set; } = [];
         public ICollection<CartItemEntity> Cart { get; set; } = [];
         public ICollection<OrderEntity> Orders { get; set; } = [];
+        public ICollection<FriendshipEntity> SentRequests { get; set; } = [];
+        public ICollection<FriendshipEntity> ReceivedRequests { get; set; } = [];
+        public ICollection<MessageEntity> SentMessages { get; set; } = [];
+        public ICollection<MessageEntity> ReceivedMessages { get; set; } = [];
     }
 }

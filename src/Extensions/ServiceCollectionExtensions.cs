@@ -30,6 +30,9 @@ namespace nebula.api.src.Extensions
             services.AddScoped<ILibraryService, LibraryService>();
             services.AddScoped<IOrderService, OrderService>();
 
+            services.AddScoped<IFriendshipService, FriendshipService>();
+            services.AddScoped<IMessageService, MessageService>();
+
             return services;
         }
 

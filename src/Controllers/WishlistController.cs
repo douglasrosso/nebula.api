@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using nebula.api.src.Common.Controllers;
 using nebula.api.src.DTOs;
 using nebula.api.src.Services;
 
@@ -9,7 +9,7 @@ namespace nebula.api.src.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class WishlistController : ControllerBase
+    public class WishlistController : AuthorizedController
     {
         private readonly IWishlistService _service;
 
@@ -59,10 +59,5 @@ namespace nebula.api.src.Controllers
             return NoContent();
         }
 
-        private Guid? GetUserId()
-        {
-            var value = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return Guid.TryParse(value, out var id) ? id : null;
-        }
     }
 }

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using nebula.api.src.Common.Controllers;
 using nebula.api.src.DTOs;
 using nebula.api.src.Services;
 
@@ -9,13 +9,15 @@ namespace nebula.api.src.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class LibraryController : ControllerBase
+    public class LibraryController : AuthorizedController
     {
-        private readonly ILibraryService _service;
+        private readonly ILibraryService _libraryService;
+        private readonly IWishlistService _wishlistService;
 
-        public LibraryController(ILibraryService service)
+        public LibraryController(ILibraryService libraryService, IWishlistService wishlistService)
         {
-            _service = service;
+            _libraryService = libraryService;
+            _wishlistService = wishlistService;
         }
 
         [HttpGet]
@@ -24,7 +26,7 @@ namespace nebula.api.src.Controllers
             var userId = GetUserId();
             if (userId is null) return Unauthorized();
 
-            return Ok(await _service.GetLibrary(userId.Value));
+            return Ok(await _libraryService.GetLibrary(userId.Value));
         }
 
         [HttpGet("{gameId:guid}/owned")]
@@ -33,13 +35,21 @@ namespace nebula.api.src.Controllers
             var userId = GetUserId();
             if (userId is null) return Unauthorized();
 
-            return Ok(await _service.IsInLibrary(userId.Value, gameId));
+            return Ok(await _libraryService.IsInLibrary(userId.Value, gameId));
         }
 
-        private Guid? GetUserId()
+        [HttpPost("{gameId:guid}")]
+        public async Task<IActionResult> Purchase(Guid gameId)
         {
-            var value = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return Guid.TryParse(value, out var id) ? id : null;
+            var userId = GetUserId();
+            if (userId is null) return Unauthorized();
+
+            await _libraryService.AddToLibrary(userId.Value, gameId);
+
+            try { await _wishlistService.AddToWishlist(userId.Value, gameId); }
+            catch (InvalidOperationException) { }
+
+            return NoContent();
         }
     }
 }
