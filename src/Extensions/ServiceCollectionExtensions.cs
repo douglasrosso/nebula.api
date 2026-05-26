@@ -6,23 +6,33 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using nebula.api.src.Entities;
 using nebula.api.src.Repositories;
+using nebula.api.src.Repositories.Mock;
 using nebula.api.src.Services;
 
 namespace nebula.api.src.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, bool useLocalData = false)
         {
-            services.AddScoped<IUserRepository, UserRepository>();
+            if (useLocalData)
+            {
+                services.AddScoped<IUserRepository, MockUserRepository>();
+                services.AddScoped<IGameRepository, MockGameRepository>();
+                services.AddScoped<IReviewRepository, MockReviewRepository>();
+            }
+            else
+            {
+                services.AddScoped<IUserRepository, UserRepository>();
+                services.AddScoped<IGameRepository, GameRepository>();
+                services.AddScoped<IReviewRepository, ReviewRepository>();
+            }
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<TokenService>();
             services.AddScoped<IPasswordHasher<UserEntity>, PasswordHasher<UserEntity>>();
 
-            services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IGameService, GameService>();
-
-            services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IReviewService, ReviewService>();
 
             services.AddScoped<ICartService, CartService>();

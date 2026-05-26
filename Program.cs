@@ -9,9 +9,10 @@ Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
-var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY");
-var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
-var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
+var useLocalData  = string.Equals(Environment.GetEnvironmentVariable("USE_LOCAL_DATA"), "true", StringComparison.OrdinalIgnoreCase);
+var jwtKey        = Environment.GetEnvironmentVariable("JWT_KEY");
+var jwtIssuer     = Environment.GetEnvironmentVariable("JWT_ISSUER");
+var jwtAudience   = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
 var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 var allowedOrigin = Environment.GetEnvironmentVariable("ALLOWED_ORIGIN") ?? "https://localhost:3000";
 
@@ -24,7 +25,7 @@ if (string.IsNullOrEmpty(jwtIssuer))
 if (string.IsNullOrEmpty(jwtAudience))
     throw new InvalidOperationException("JWT_AUDIENCE não definido.");
 
-if (string.IsNullOrEmpty(connectionString))
+if (!useLocalData && string.IsNullOrEmpty(connectionString))
     throw new InvalidOperationException("CONNECTION_STRING não definida.");
 
 var key = Encoding.UTF8.GetBytes(jwtKey);
@@ -40,10 +41,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddDbContext<NebulaDbContext>(options =>
-    options.UseNpgsql(connectionString));
+if (useLocalData)
+    builder.Services.AddDbContext<NebulaDbContext>(options =>
+        options.UseInMemoryDatabase("nebula-local"));
+else
+    builder.Services.AddDbContext<NebulaDbContext>(options =>
+        options.UseNpgsql(connectionString));
 
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices(useLocalData);
 builder.Services.AddControllers().AddValidationErrors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddHttpContextAccessor();
