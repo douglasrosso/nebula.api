@@ -61,6 +61,7 @@ builder.Services.AddSignalR();
 var app = builder.Build();
 
 app.UseGlobalExceptionHandler();
+app.UseStaticFiles();
 app.UseCors();
 
 if (app.Environment.IsDevelopment())
