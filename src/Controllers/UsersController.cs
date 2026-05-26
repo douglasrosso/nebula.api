@@ -10,7 +10,12 @@ namespace nebula.api.src.Controllers
     public class UsersController
         : BaseController<IUserService, UserDto, CreateUserDto, UpdateUserDto, UserQueryDto>
     {
-        public UsersController(IUserService service) : base(service) { }
+        private readonly ILibraryService _libraryService;
+
+        public UsersController(IUserService service, ILibraryService libraryService) : base(service)
+        {
+            _libraryService = libraryService;
+        }
 
         [AllowAnonymous]
         [HttpPost]
@@ -38,6 +43,8 @@ namespace nebula.api.src.Controllers
 
             if (user is null)
                 return NotFound();
+
+            user.GamesOwned = await _libraryService.CountByUser(id);
 
             return Ok(user);
         }
