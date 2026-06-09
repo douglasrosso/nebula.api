@@ -16,9 +16,6 @@ namespace nebula.api.src.Data
         public DbSet<ReviewEntity> Reviews => Set<ReviewEntity>();
         public DbSet<UserLibraryEntity> UserLibrary => Set<UserLibraryEntity>();
         public DbSet<WishlistItemEntity> Wishlist => Set<WishlistItemEntity>();
-        public DbSet<CartItemEntity> Cart => Set<CartItemEntity>();
-        public DbSet<OrderEntity> Orders => Set<OrderEntity>();
-        public DbSet<OrderItemEntity> OrderItems => Set<OrderItemEntity>();
         public DbSet<FriendshipEntity> Friendships => Set<FriendshipEntity>();
         public DbSet<MessageEntity> Messages => Set<MessageEntity>();
 
@@ -102,45 +99,6 @@ namespace nebula.api.src.Data
                 .HasOne(w => w.Game)
                 .WithMany(g => g.WishlistItems)
                 .HasForeignKey(w => w.GameId);
-
-            modelBuilder.Entity<CartItemEntity>()
-                .HasKey(c => new { c.UserId, c.GameId });
-
-            modelBuilder.Entity<CartItemEntity>()
-                .HasOne(c => c.User)
-                .WithMany(u => u.Cart)
-                .HasForeignKey(c => c.UserId);
-
-            modelBuilder.Entity<CartItemEntity>()
-                .HasOne(c => c.Game)
-                .WithMany(g => g.CartItems)
-                .HasForeignKey(c => c.GameId);
-
-            modelBuilder.Entity<OrderEntity>()
-                .Property(o => o.TotalAmount)
-                .HasColumnType("numeric(10,2)");
-
-            modelBuilder.Entity<OrderEntity>()
-                .HasOne(o => o.User)
-                .WithMany(u => u.Orders)
-                .HasForeignKey(o => o.UserId);
-
-            modelBuilder.Entity<OrderItemEntity>()
-                .HasKey(i => new { i.OrderId, i.GameId });
-
-            modelBuilder.Entity<OrderItemEntity>()
-                .Property(i => i.PricePaid)
-                .HasColumnType("numeric(10,2)");
-
-            modelBuilder.Entity<OrderItemEntity>()
-                .HasOne(i => i.Order)
-                .WithMany(o => o.Items)
-                .HasForeignKey(i => i.OrderId);
-
-            modelBuilder.Entity<OrderItemEntity>()
-                .HasOne(i => i.Game)
-                .WithMany(g => g.OrderItems)
-                .HasForeignKey(i => i.GameId);
 
             modelBuilder.Entity<FriendshipEntity>()
                 .HasOne(f => f.Requester)

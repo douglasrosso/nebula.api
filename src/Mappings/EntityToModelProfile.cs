@@ -22,8 +22,6 @@ namespace nebula.api.src.Mappings
                 .ForMember(dest => dest.Reviews, opt => opt.Ignore())
                 .ForMember(dest => dest.Library, opt => opt.Ignore())
                 .ForMember(dest => dest.Wishlist, opt => opt.Ignore())
-                .ForMember(dest => dest.Cart, opt => opt.Ignore())
-                .ForMember(dest => dest.Orders, opt => opt.Ignore())
                 .ReverseMap();
 
             CreateMap<CreateUserDto, UserEntity>()
@@ -41,9 +39,7 @@ namespace nebula.api.src.Mappings
                 .ForMember(dest => dest.Badges, opt => opt.Ignore())
                 .ForMember(dest => dest.Reviews, opt => opt.Ignore())
                 .ForMember(dest => dest.Library, opt => opt.Ignore())
-                .ForMember(dest => dest.Wishlist, opt => opt.Ignore())
-                .ForMember(dest => dest.Cart, opt => opt.Ignore())
-                .ForMember(dest => dest.Orders, opt => opt.Ignore());
+                .ForMember(dest => dest.Wishlist, opt => opt.Ignore());
 
             CreateMap<UpdateUserDto, UserEntity>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -62,9 +58,7 @@ namespace nebula.api.src.Mappings
                 .ForMember(dest => dest.Badges, opt => opt.Ignore())
                 .ForMember(dest => dest.Reviews, opt => opt.Ignore())
                 .ForMember(dest => dest.Library, opt => opt.Ignore())
-                .ForMember(dest => dest.Wishlist, opt => opt.Ignore())
-                .ForMember(dest => dest.Cart, opt => opt.Ignore())
-                .ForMember(dest => dest.Orders, opt => opt.Ignore());
+                .ForMember(dest => dest.Wishlist, opt => opt.Ignore());
 
             CreateMap<CreateGameDto, GameEntity>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -76,8 +70,6 @@ namespace nebula.api.src.Mappings
                 .ForMember(dest => dest.Reviews, opt => opt.Ignore())
                 .ForMember(dest => dest.LibraryEntries, opt => opt.Ignore())
                 .ForMember(dest => dest.WishlistItems, opt => opt.Ignore())
-                .ForMember(dest => dest.CartItems, opt => opt.Ignore())
-                .ForMember(dest => dest.OrderItems, opt => opt.Ignore())
                 .ForMember(dest => dest.SystemRequirements, opt => opt.MapFrom(src => src.SystemRequirements));
 
             CreateMap<UpdateGameDto, GameEntity>()
@@ -92,8 +84,6 @@ namespace nebula.api.src.Mappings
                 .ForMember(dest => dest.Reviews, opt => opt.Ignore())
                 .ForMember(dest => dest.LibraryEntries, opt => opt.Ignore())
                 .ForMember(dest => dest.WishlistItems, opt => opt.Ignore())
-                .ForMember(dest => dest.CartItems, opt => opt.Ignore())
-                .ForMember(dest => dest.OrderItems, opt => opt.Ignore())
                 .ForMember(dest => dest.SystemRequirements, opt => opt.MapFrom(src => src.SystemRequirements));
 
             CreateMap<CreateSystemRequirementsDto, SystemRequirements>()

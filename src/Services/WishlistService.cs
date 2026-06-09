@@ -18,16 +18,25 @@ namespace nebula.api.src.Services
         {
             return await _context.Wishlist
                 .AsNoTracking()
+                .Include(w => w.Game)
                 .Where(w => w.UserId == userId)
-                .Select(w => new WishlistItemDto { GameId = w.GameId })
+                .Select(w => new WishlistItemDto
+                {
+                    GameId = w.GameId,
+                    Title = w.Game.Title,
+                    CoverImage = w.Game.CoverImage,
+                    Price = w.Game.Price,
+                    OriginalPrice = w.Game.OriginalPrice,
+                    Discount = w.Game.Discount,
+                    AddedAt = w.AddedAt
+                })
                 .ToListAsync();
         }
 
         public async Task<WishlistItemDto> AddToWishlist(Guid userId, Guid gameId)
         {
-            var exists = await _context.Games.AnyAsync(g => g.Id == gameId);
-            if (!exists)
-                throw new KeyNotFoundException("Jogo não encontrado.");
+            var game = await _context.Games.FindAsync(gameId)
+                ?? throw new KeyNotFoundException("Jogo não encontrado.");
 
             var alreadyIn = await _context.Wishlist
                 .AnyAsync(w => w.UserId == userId && w.GameId == gameId);
@@ -35,16 +44,26 @@ namespace nebula.api.src.Services
             if (alreadyIn)
                 throw new InvalidOperationException("Jogo já está na lista de desejos.");
 
-            _context.Wishlist.Add(new WishlistItemEntity
+            var item = new WishlistItemEntity
             {
                 UserId = userId,
                 GameId = gameId,
                 AddedAt = DateTime.UtcNow
-            });
+            };
 
+            _context.Wishlist.Add(item);
             await _context.SaveChangesAsync();
 
-            return new WishlistItemDto { GameId = gameId };
+            return new WishlistItemDto
+            {
+                GameId = game.Id,
+                Title = game.Title,
+                CoverImage = game.CoverImage,
+                Price = game.Price,
+                OriginalPrice = game.OriginalPrice,
+                Discount = game.Discount,
+                AddedAt = item.AddedAt
+            };
         }
 
         public async Task<bool> RemoveFromWishlist(Guid userId, Guid gameId)

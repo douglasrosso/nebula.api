@@ -25,10 +25,8 @@ namespace nebula.api.src.Extensions
             services.AddScoped<IReviewRepository, ReviewRepository>();
             services.AddScoped<IReviewService, ReviewService>();
 
-            services.AddScoped<ICartService, CartService>();
             services.AddScoped<IWishlistService, WishlistService>();
             services.AddScoped<ILibraryService, LibraryService>();
-            services.AddScoped<IOrderService, OrderService>();
 
             services.AddScoped<IFriendshipService, FriendshipService>();
             services.AddScoped<IMessageService, MessageService>();

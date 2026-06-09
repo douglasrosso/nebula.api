@@ -27,7 +27,5 @@ namespace nebula.api.src.Entities
         public ICollection<ReviewEntity> Reviews { get; set; } = [];
         public ICollection<UserLibraryEntity> LibraryEntries { get; set; } = [];
         public ICollection<WishlistItemEntity> WishlistItems { get; set; } = [];
-        public ICollection<CartItemEntity> CartItems { get; set; } = [];
-        public ICollection<OrderItemEntity> OrderItems { get; set; } = [];
     }
 }
